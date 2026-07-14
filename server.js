@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3000;
 
 app.get('/', (req, res) => {
-  console.log(`[${new Date().toISOString()}] Request received`
+  console.log(`[${new Date().toISOString()}] Request received`);
   res.send('Aegon ii true king\n');
 });
 
