@@ -36,3 +36,21 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-app:latest
+  deploy:
+    needs: build-and-test
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull latest image
+        run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/demo-app:latest
+
+      - name: Stop old container
+        run: docker stop demo-container || true
+
+      - name: Remove old container
+        run: docker rm demo-container || true
+
+      - name: Run new container
+        run: |
+          docker run -d -p 3000:3000 --name demo-container \
+          ${{ secrets.DOCKERHUB_USERNAME }}/demo-app:latest
